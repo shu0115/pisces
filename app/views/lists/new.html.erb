@@ -1,0 +1,27 @@
+
+<% form_for :list, :url => { :action => "create" } do |f| %>
+  <%= f.error_messages %>
+
+  <%# タイトル %>
+  <%= f.label :title, t("list.title") %>：<br />
+  <%= f.text_field :title, :class => "input_field_width_200" %><br />
+  
+  <br />
+
+  <%# モード %>
+  <%= f.label :mode, "モード" %>：<br />
+  <%= f.radio_button :mode , "public" %><%= f.label :mode_public, " 公開" %>
+  <%= f.radio_button :mode , "private", { :checked => true } %><%= f.label :mode_private, " 非公開" %>
+  <%= f.radio_button :mode , "protect" %><%= f.label :mode_protect, " 保護" %>：<%= f.label :show_key, "閲覧キー" %> <%= f.text_field :show_key, :class => "input_field_width_100" %><br />
+  
+  <br />
+
+  <%= f.submit t("menu.create"), :disable_with => t("menu.create") %><br />
+<% end %>
+
+<br />
+<br />
+
+<span class="menu">
+  <%= link_to t("menu.list"), { :action => "index" } %>
+</span>

@@ -1,0 +1,27 @@
+
+<% unless @list.blank? %>
+  <table>
+    <tr>
+      <th align="left"><%= t("list.title") %></th>
+      <td><%= @list.title %></td>
+    </tr>
+
+    <tr>
+      <th align="left"><%= t("list.mode") %></th>
+      <td><%=h $mode[@list.mode] %><% if @list.mode == "protect" %><%= "(閲覧キー:#{@list.show_key})" unless @list.show_key.blank? %><% end %></td>
+    </tr>
+  </table>
+  
+  <br />
+  
+  <span class="menu">
+    <%= link_to t("menu.list"), { :action => "index", :page => params[:page] } %>
+    <%= link_to t("menu.edit"), { :action => "edit", :id => @list.id, :page => params[:page] } %>
+  </span>
+  
+  <br />
+<% else %>
+  <span class="menu">
+    <%= link_to t("menu.list"), { :action => "index", :page => params[:page] } %>
+  </span>
+<% end %>

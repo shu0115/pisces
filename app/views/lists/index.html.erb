@@ -1,0 +1,30 @@
+<%# ページング %>
+<%= will_paginate @lists, :previous_label => 'Prev', :next_label => 'Next', :params => { :action => "index" } %><br />
+
+<table>
+  <tr>
+    <th><%= t("list.title") %></th>
+    <th><%= t("list.mode") %></th>
+  </tr>
+
+<% @lists.each do |list| %>
+  <tr>
+    <td><%=h list.title %></td>
+    <td><%=h $mode[list.mode] %></td>
+    <td class="menu"><%= link_to t("list.item"), { :controller => "list_items", :list_id => list.id, :list_page => params[:page] } %></td>
+    <td class="menu"><%= link_to t("menu.show"), { :action => "show", :id => list.id, :page => params[:page] } %></td>
+    <td class="menu"><%= link_to t("menu.edit"), { :action => "edit", :id => list.id, :page => params[:page] } %></td>
+    <td class="menu"><%= link_to t("menu.delete"), { :action => "destroy", :id => list.id, :page => params[:page] }, :confirm => "「#{list.title}」を本当に削除してよろしいですか？" %></td>
+  </tr>
+<% end %>
+</table>
+
+<%# ページング %>
+<%= will_paginate @lists, :previous_label => 'Prev', :next_label => 'Next', :params => { :action => "index" } %><br />
+
+<br />
+
+<span class="menu">
+  <%= link_to t("menu.new"), { :action => "new" } %>
+</span>
+

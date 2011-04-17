@@ -1,0 +1,22 @@
+<%# ページング %>
+<%= will_paginate @lists, :previous_label => 'Prev', :next_label => 'Next', :params => { :action => "index" } %><br />
+
+<table>
+  <tr>
+    <th><%= t("list.title") %></th>
+    <th><%= t("list.mode") %></th>
+  </tr>
+
+<% @lists.each do |list| %>
+  <tr>
+    <td><%=h list.title %></td>
+    <td><%=h $mode[list.mode] %></td>
+    <td class="menu"><%= link_to t("list.item"), { :action => "item_list", :id => list.id } %></td>
+  </tr>
+<% end %>
+</table>
+
+<%# ページング %>
+<%= will_paginate @lists, :previous_label => 'Prev', :next_label => 'Next', :params => { :action => "index" } %><br />
+
+<br />

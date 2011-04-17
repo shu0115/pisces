@@ -1,0 +1,22 @@
+<center>
+<%# リスト情報 %>
+<table align="center" class="text_left">
+  <tr>
+    <td><%= @list.title %></td>
+  </tr>
+<table>
+
+<br />
+
+<p style="color: green"><%= flash[:show_key_notice] %></p>
+
+<% form_tag :action => "show_key", :id => @list.id do %>
+  閲覧キーを入力して下さい<br />
+  <br />
+  <%= password_field_tag :show_key, params[:show_key], :class => "input_field_width_150" %><br />
+  <br />
+  <%= submit_tag "送信", :disable_with => "送信" %><br />
+<% end %>
+
+<br />
+</center>

@@ -1,0 +1,56 @@
+
+<div id="list">
+  
+<%# ページング %>
+<%= will_paginate @list_items, :previous_label => 'Prev', :next_label => 'Next', :params => { :action => "index", :list_id => params[:list_id], :item_status => params[:item_status] } %><br />
+
+<%# リストアイテム一覧 %>
+<% remote_form_for( :list_item, :url => { :action => "update", :id => @list_item.id, :list_id => @list_item.list_id, :page => params[:page], :item_status => params[:item_status] }, :update => "list", :success => "reset()", :loading => "$(disable_with_submit).disabled=true; $(disable_with_submit).value='#{t('menu.save')}'", :complete => "$(disable_with_submit).disabled=false; $(disable_with_submit).value='#{t('menu.save')}'" ) do |f| %>
+
+  <table border="0">
+    <tr>
+      <th style="white-space: nowrap;"><%=h t("list_item.name") %></th>
+      <th style="white-space: nowrap;"><%=h t("list_item.expected_date") %></th>
+      <th style="white-space: nowrap;"><%=h t("list_item.complete_date") %></th>
+      <th><br /></th>
+      <th><br /></th>
+      <th><br /></th>
+    </tr>
+    
+    <% @list_items.each_with_index do |list_item, index| %>
+    <% if list_item.status == "完了" %><% set_class = "done" %><% end %>
+    <tr id="<%= index %>" class="<%= set_class %>">
+      <% unless params[:index].to_s == index.to_s %>
+        <%# 閲覧 %>
+        <td><%=h list_item.name %></td>
+        <td><%=h list_item.expected_date.strftime("%Y/%m/%d") unless list_item.expected_date.blank? %></td>
+        <td><%=h list_item.complete_date.strftime("%Y/%m/%d") unless list_item.complete_date.blank? %></td>
+        <td class="menu"><%= link_to_remote t("menu.edit"), :update => "list", :url => { :action => "edit", :id => list_item.id, :list_id => list_item.list_id, :index => index, :page => params[:page], :item_status => params[:item_status] } %></td>
+      <% else %>
+        <%# 編集 %>
+        <td><%= f.text_field :name, :value => @list_item.name, :class => "input_field_width_200" %></td>
+        <td><%= f.date_select :expected_date, :use_month_numbers => true %></td>
+        <td><%=h list_item.complete_date.strftime("%Y/%m/%d") unless list_item.complete_date.blank? %></td>
+        <td><%= f.submit t("menu.save"), :id => "disable_with_submit" %></td>
+      <% end %>
+      <%# 削除 %>
+      <td class="menu"><%= link_to t("menu.delete"), { :action => "destroy", :id => list_item.id, :list_id => list_item.list_id, :page => params[:page], :item_status => params[:item_status], :list_page => params[:list_page] }, :confirm => "「#{list_item.name}」を本当に削除してよろしいですか？" %></td>
+      <td>
+      <%# 完了／未完了ボタン %>
+      <% unless list_item.status == "完了" %>
+        <%# ステータス完了 %>
+        <%= button_to_remote t("menu.done"), :update => "list", :url => { :action => "set_status", :id => list_item.id, :list_id => params[:list_id], :page => params[:page], :set_status => "完了", :complete_date => Date.today, :item_status => params[:item_status] } %>
+      <% else %>
+        <%# ステータス取消 %>
+        <%= button_to_remote t("menu.undo"), :update => "list", :url => { :action => "set_status", :id => list_item.id, :list_id => params[:list_id], :page => params[:page], :set_status => "", :complete_date => "", :item_status => params[:item_status] } %>
+      <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<%# ページング %>
+<%= will_paginate @list_items, :previous_label => 'Prev', :next_label => 'Next', :params => { :action => "index", :list_id => params[:list_id], :item_status => params[:item_status] } %><br />
+
+</div>

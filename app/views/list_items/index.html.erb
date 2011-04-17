@@ -1,0 +1,59 @@
+
+<%# リスト名 %>
+<table>
+  <tr>
+    <td><%=h List.get_title( params[:list_id] ) %></td>
+  </tr>
+</table>
+
+<br />
+
+<%# リストアイテム新規作成 %>
+<% form_for :list_item, :url => { :action => "create", :list_page => params[:list_page] } do |f| %>
+  <%= f.error_messages %>
+
+  <%# タイトル %>
+  <%= f.text_field :name, :class => "input_field_width_200" %>
+  
+  <%# 予定日 %>
+  <%= f.date_select :expected_date, :use_month_numbers => true %>
+  
+  <%# リストID %>
+  <%= f.hidden_field :list_id, { :value => params[:list_id] } %>
+  
+  <%= f.submit t("menu.create"), :disable_with => t("menu.create") %><br />
+<% end %>
+
+<br />
+
+<% if @list.mode == "public" or @list.mode == "protect" %>
+  <table class="text_left">
+    <tr>
+      <td>
+        公開用ページ：<%= link_to "http://#{request.env['HTTP_HOST']}/#{@list.mode}/item_list/#{@list.id}", "http://#{request.env['HTTP_HOST']}/#{@list.mode}/item_list/#{@list.id}", :target => "_blank" %><br />
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<br />
+
+<%# ステータス %>
+<div class="menu">
+  <span class="<%= 'now_page' if params[:item_status] == '全て' %>"><%= link_to "全て", :action => "index", :list_id => params[:list_id], :page => 1, :item_status => "全て", :list_page => params[:list_page] %></span>
+  <span class="<%= 'now_page' if params[:item_status] == '完了' %>"><%= link_to "完了", :action => "index", :list_id => params[:list_id], :page => 1, :item_status => "完了", :list_page => params[:list_page] %></span>
+  <span class="<%= 'now_page' if params[:item_status] == '未完了' %>"><%= link_to "未完了", :action => "index", :list_id => params[:list_id], :page => 1, :item_status => "未完了", :list_page => params[:list_page] %></span>
+</div>
+
+<br />
+<br />
+
+<%# リストアイテム一覧 %>
+<%= render :partial => 'list' %>
+
+<br />
+<br />
+
+<span class="menu">
+  <%= link_to t("menu.list"), { :controller => "lists", :page => params[:list_page] } %>
+</span>

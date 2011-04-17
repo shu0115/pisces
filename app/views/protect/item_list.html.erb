@@ -1,0 +1,58 @@
+
+<%# リスト名 %>
+<table>
+  <tr>
+    <td><%=h List.get_title( params[:id] ) %></td>
+  </tr>
+</table>
+
+<br />
+
+<%# ステータス %>
+<div class="menu">
+  <span class="<%= 'now_status' if params[:item_status] == '全て' %>"><%= link_to "全て", :action => "item_list", :id => params[:id], :page => 1, :item_status => "全て" %></span>
+  <span class="<%= 'now_status' if params[:item_status] == '完了' %>"><%= link_to "完了", :action => "item_list", :id => params[:id], :page => 1, :item_status => "完了" %></span>
+  <span class="<%= 'now_status' if params[:item_status] == '未完了' %>"><%= link_to "未完了", :action => "item_list", :id => params[:id], :page => 1, :item_status => "未完了" %></span>
+</div>
+
+<br />
+<br />
+
+
+<div id="list">
+
+<%# ページング %>
+<%= will_paginate @list_items, :previous_label => 'Prev', :next_label => 'Next', :params => { :action => "item_list", :id => params[:id], :item_status => params[:item_status] } %><br />
+
+<%# リストアイテム一覧 %>
+<table border="0">
+  <tr>
+    <th style="white-space: nowrap;"><%=h t("list_item.name") %></th>
+    <th style="white-space: nowrap;"><%=h t("list_item.expected_date") %></th>
+    <th style="white-space: nowrap;"><%=h t("list_item.complete_date") %></th>
+  </tr>
+  
+  <% @list_items.each_with_index do |list_item, index| %>
+  <% if list_item.status == "完了" %><% set_class = "done" %><% end %>
+  <tr id="<%= index %>" class="<%= set_class %>">
+    <%# 閲覧 %>
+    <td><%=h list_item.name %></td>
+    <td><%=h list_item.expected_date.strftime("%Y/%m/%d") unless list_item.expected_date.blank? %></td>
+    <td><%=h list_item.complete_date.strftime("%Y/%m/%d") unless list_item.complete_date.blank? %></td>
+  </tr>
+  <% end %>
+</table>
+
+<%# ページング %>
+<%= will_paginate @list_items, :previous_label => 'Prev', :next_label => 'Next', :params => { :action => "item_list", :id => params[:id], :item_status => params[:item_status] } %><br />
+
+</div>
+
+<br />
+<br />
+
+<% unless session[:user_id].blank? %>
+<span class="menu">
+  <%= link_to t("menu.list"), { :action => "index" } %>
+</span>
+<% end %>
