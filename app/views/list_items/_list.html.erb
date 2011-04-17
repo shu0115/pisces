@@ -25,17 +25,17 @@
         <td><%=h list_item.name %></td>
         <td><%=h list_item.expected_date.strftime("%Y/%m/%d") unless list_item.expected_date.blank? %></td>
         <td><%=h list_item.complete_date.strftime("%Y/%m/%d") unless list_item.complete_date.blank? %></td>
-        <td class="menu"><%= link_to_remote t("menu.edit"), :update => "list", :url => { :action => "edit", :id => list_item.id, :list_id => list_item.list_id, :index => index, :page => params[:page], :item_status => params[:item_status] } %></td>
+        <td align="center" class="menu"><%= link_to_remote t("menu.edit"), :update => "list", :url => { :action => "edit", :id => list_item.id, :list_id => list_item.list_id, :index => index, :page => params[:page], :item_status => params[:item_status] } %></td>
       <% else %>
         <%# 編集 %>
         <td><%= f.text_field :name, :value => @list_item.name, :class => "input_field_width_200" %></td>
         <td><%= f.date_select :expected_date, :use_month_numbers => true %></td>
         <td><%=h list_item.complete_date.strftime("%Y/%m/%d") unless list_item.complete_date.blank? %></td>
-        <td><%= f.submit t("menu.save"), :id => "disable_with_submit" %></td>
+        <td align="center"><%= f.submit t("menu.save"), :id => "disable_with_submit" %></td>
       <% end %>
       <%# 削除 %>
-      <td class="menu"><%= link_to t("menu.delete"), { :action => "destroy", :id => list_item.id, :list_id => list_item.list_id, :page => params[:page], :item_status => params[:item_status], :list_page => params[:list_page] }, :confirm => "「#{list_item.name}」を本当に削除してよろしいですか？" %></td>
-      <td>
+      <td align="center" class="menu"><%= link_to t("menu.delete"), { :action => "destroy", :id => list_item.id, :list_id => list_item.list_id, :page => params[:page], :item_status => params[:item_status], :list_page => params[:list_page] }, :confirm => "「#{list_item.name}」を本当に削除してよろしいですか？" %></td>
+      <td align="center">
       <%# 完了／未完了ボタン %>
       <% unless list_item.status == "完了" %>
         <%# ステータス完了 %>
