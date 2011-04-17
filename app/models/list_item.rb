@@ -5,8 +5,8 @@ class ListItem < ActiveRecord::Base
   #---------------#
   def self.get_list( args )
     condition_text = ""
-#    order_text = "expected_date ASC, created_at ASC"
-    order_text = "created_at DESC"
+    order_text = "expected_date ASC, created_at ASC"
+#    order_text = "created_at DESC"
     condition_hash = Hash.new
     
     # ユーザID
